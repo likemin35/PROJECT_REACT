@@ -8,7 +8,7 @@ const ManuscriptForm = ({ manuscript, setManuscript, onSave, onSubmit }) => {
 
   return (
     <div style={{ fontFamily: 'sans-serif' }}>
-      {/* ✅ 상단 KT 걷다가서재 바 - 페이지 맨 위에 위치 */}
+      {/* 상단 KT 걷다가서재 바 - 페이지 맨 위에 위치 */}
       <div style={{
         backgroundColor: '#FFF3E0',
         padding: '20px',
@@ -24,7 +24,7 @@ const ManuscriptForm = ({ manuscript, setManuscript, onSave, onSubmit }) => {
         </div>
       </div>
 
-      {/* ✅ 원고 폼 */}
+      {/*  원고 폼 */}
       <div style={{ padding: '40px', maxWidth: '900px', margin: '0 auto' }}>
         <div style={{ display: 'flex', gap: '20px', marginBottom: '10px' }}>
           <div style={{ flex: 1 }}>
