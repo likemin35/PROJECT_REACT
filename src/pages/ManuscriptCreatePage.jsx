@@ -7,7 +7,7 @@ const ManuscriptCreatePage = () => {
   const [manuscript, setManuscript] = useState({
     title: '',
     content: '',
-    authorId: 'author001' // ✨ 임시 테스트용 ID
+    authorId: '' 
   });
 
   const navigate = useNavigate();
