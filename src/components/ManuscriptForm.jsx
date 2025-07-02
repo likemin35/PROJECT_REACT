@@ -10,16 +10,17 @@ const ManuscriptForm = ({ manuscript, setManuscript, onSave, onSubmit }) => {
     <div style={{ fontFamily: 'sans-serif' }}>
       {/* 상단 KT 걷다가서재 바 - 페이지 맨 위에 위치 */}
       <div style={{
-        backgroundColor: '#FFF3E0',
+        backgroundColor: '#f9f5fb',
         padding: '20px',
         display: 'flex',
         justifyContent: 'space-between',
-        alignItems: 'center'
+        alignItems: 'center',
+        borderBottom: '1px solid #e1bee7'
       }}>
-        <div style={{ color: '#FF6D4D', fontWeight: 'bold', fontSize: '20px' }}>
+        <div style={{ color: '#8E24AA', fontWeight: 'bold', fontSize: '20px' }}>
           KT 걷다가서재
         </div>
-        <div style={{ color: '#FF6D4D', fontSize: '14px' }}>
+        <div style={{ color: '#8E24AA', fontSize: '14px' }}>
           마이페이지
         </div>
       </div>
@@ -37,8 +38,9 @@ const ManuscriptForm = ({ manuscript, setManuscript, onSave, onSubmit }) => {
               style={{
                 width: '100%',
                 padding: '8px',
-                backgroundColor: '#E0E0E0',
-                border: 'none'
+                backgroundColor: '#f8f8f8',
+                border: '1px solid #e0e0e0',
+                borderRadius: '4px'
               }}
             />
           </div>
@@ -52,8 +54,9 @@ const ManuscriptForm = ({ manuscript, setManuscript, onSave, onSubmit }) => {
               style={{
                 width: '100%',
                 padding: '8px',
-                backgroundColor: '#E0E0E0',
-                border: 'none'
+                backgroundColor: '#f8f8f8',
+                border: '1px solid #e0e0e0',
+                borderRadius: '4px'
               }}
             />
           </div>
@@ -71,7 +74,8 @@ const ManuscriptForm = ({ manuscript, setManuscript, onSave, onSubmit }) => {
               padding: '10px',
               resize: 'none',
               backgroundColor: '#FFFFFF',
-              border: '1px solid #000'
+              border: '1px solid #e0e0e0',
+              borderRadius: '4px'
             }}
           />
         </div>
@@ -80,12 +84,13 @@ const ManuscriptForm = ({ manuscript, setManuscript, onSave, onSubmit }) => {
           <button
             onClick={onSave}
             style={{
-              backgroundColor: '#FF6D4D',
-              color: 'white',
+              backgroundColor: '#f9f5fb',
+              color: '#8E24AA',
               padding: '10px 20px',
-              border: 'none',
-              borderRadius: '5px',
-              cursor: 'pointer'
+              border: '1px solid #e1bee7',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontWeight: 'bold'
             }}
           >
             임시 저장
@@ -93,12 +98,13 @@ const ManuscriptForm = ({ manuscript, setManuscript, onSave, onSubmit }) => {
           <button
             onClick={onSubmit}
             style={{
-              backgroundColor: '#FF6D4D',
+              backgroundColor: '#8E24AA',
               color: 'white',
               padding: '10px 20px',
               border: 'none',
-              borderRadius: '5px',
-              cursor: 'pointer'
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontWeight: 'bold'
             }}
           >
             출판 신청

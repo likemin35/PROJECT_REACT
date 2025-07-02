@@ -8,14 +8,12 @@ function Navbar() {
     <div style={styles.navbar}>
       <div style={styles.leftSection}>
         <button onClick={() => navigate('/charge')} style={styles.iconButton}>
-          <span style={styles.iconText}>💎</span>
           <span style={styles.iconLabel}>충전</span>
         </button>
       </div>
 
       <div style={styles.logoContainer} onClick={() => navigate('/main')}>
         <div style={styles.logoWrapper}>
-          <span style={styles.logoIcon}>📚</span>
           <div style={styles.logoText}>
             <div style={styles.brandName}>KT 걷다가서재</div>
             <div style={styles.brandTagline}>Digital Library</div>
@@ -25,7 +23,6 @@ function Navbar() {
 
       <div style={styles.rightSection}>
         <button onClick={() => navigate('/mypage')} style={styles.mypageButton}>
-          <span style={styles.mypageIcon}>👤</span>
           <span style={styles.mypageText}>MYPAGE</span>
         </button>
       </div>
@@ -57,14 +54,13 @@ const styles = {
     alignItems: 'center',
     gap: '0.3rem',
     padding: '0.8rem 1rem',
-    background: '#fff8dc',
-    border: '1px solid #ffeeba',
+    background: '#f8f8f8',
+    border: '1px solid #eeeeee',
     borderRadius: '12px',
     cursor: 'pointer',
     transition: 'all 0.3s ease',
-    color: '#ff9800'
+    color: '#8E24AA'
   },
-  iconText: { fontSize: '1.5rem' },
   iconLabel: { fontSize: '0.8rem', fontWeight: '600' },
   logoContainer: {
     flex: 1,
@@ -79,10 +75,6 @@ const styles = {
     padding: '0.5rem 1rem',
     borderRadius: '16px'
   },
-  logoIcon: {
-    fontSize: '2.5rem',
-    filter: 'drop-shadow(0 2px 4px rgba(255, 215, 0, 0.2))'
-  },
   logoText: {
     display: 'flex',
     flexDirection: 'column',
@@ -91,9 +83,7 @@ const styles = {
   brandName: {
     fontSize: '1.5rem',
     fontWeight: 'bold',
-    background: 'linear-gradient(135deg, #FFD700 0%, #FFA000 100%)',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent'
+    color: '#8E24AA'
   },
   brandTagline: {
     fontSize: '0.8rem',
@@ -118,7 +108,6 @@ const styles = {
     cursor: 'pointer',
     color: '#8E24AA'
   },
-  mypageIcon: { fontSize: '1.3rem' },
   mypageText: { fontSize: '0.9rem', fontWeight: '600', letterSpacing: '0.5px' }
 };
 

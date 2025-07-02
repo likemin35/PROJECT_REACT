@@ -40,12 +40,11 @@ function PointChargePage() {
       
       <div style={styles.container}>
         <div style={styles.header}>
-          <h1 style={styles.title}>💎 충전 & 구독</h1>
+          <h1 style={styles.title}>충전 & 구독</h1>
           <p style={styles.subtitle}>포인트 충전 또는 구독권 구매를 선택하세요</p>
           
           {/* 현재 포인트 표시 */}
           <div style={styles.currentPointsCard}>
-            <div style={styles.pointsIcon}>💎</div>
             <div style={styles.pointsInfo}>
               <div style={styles.pointsLabel}>현재 보유 포인트</div>
               <div style={styles.pointsAmount}>{currentPoints.toLocaleString()}P</div>
@@ -65,7 +64,6 @@ function PointChargePage() {
               ...(activeTab === 'point' ? styles.activeTab : styles.inactiveTab)
             }}
           >
-            <span style={styles.tabIcon}>💎</span>
             포인트 충전
           </button>
           <button
@@ -78,7 +76,6 @@ function PointChargePage() {
               ...(activeTab === 'subscription' ? styles.activeTab : styles.inactiveTab)
             }}
           >
-            <span style={styles.tabIcon}>⭐</span>
             구독권 구매
           </button>
         </div>
@@ -86,7 +83,7 @@ function PointChargePage() {
         {/* 포인트 충전 섹션 */}
         {activeTab === 'point' && (
           <div style={styles.section}>
-            <h3 style={styles.sectionTitle}>💎 포인트 상품</h3>
+            <h3 style={styles.sectionTitle}>포인트 상품</h3>
             <div style={styles.optionsGrid}>
               {pointOptions.map(({ point, price, bonus }) => (
                 <div
@@ -120,7 +117,7 @@ function PointChargePage() {
         {/* 구독권 구매 섹션 */}
         {activeTab === 'subscription' && (
           <div style={styles.section}>
-            <h3 style={styles.sectionTitle}>🌟 구독권</h3>
+            <h3 style={styles.sectionTitle}>구독권</h3>
             <div style={styles.subscriptionContainer}>
               <div
                 onClick={() => handleItemSelect({ 
@@ -146,7 +143,6 @@ function PointChargePage() {
                 <div style={styles.benefitsList}>
                   {subscriptionOption.benefits.map((benefit, index) => (
                     <div key={index} style={styles.benefitItem}>
-                      <span style={styles.benefitIcon}>✨</span>
                       {benefit}
                     </div>
                   ))}
@@ -159,7 +155,7 @@ function PointChargePage() {
         {/* 결제 수단 선택 */}
         {selectedAmount && (
           <div style={styles.section}>
-            <h3 style={styles.sectionTitle}>💳 결제 수단</h3>
+            <h3 style={styles.sectionTitle}>결제 수단</h3>
             <div style={styles.paymentMethods}>
               <button
                 onClick={() => setPaymentMethod('card')}
@@ -168,7 +164,6 @@ function PointChargePage() {
                   ...(paymentMethod === 'card' ? styles.selectedPayment : {})
                 }}
               >
-                <span style={styles.paymentIcon}>💳</span>
                 카드 결제
               </button>
               <button
@@ -178,7 +173,6 @@ function PointChargePage() {
                   ...(paymentMethod === 'bank' ? styles.selectedPayment : {})
                 }}
               >
-                <span style={styles.paymentIcon}>🏦</span>
                 계좌 이체
               </button>
             </div>
@@ -188,7 +182,7 @@ function PointChargePage() {
         {/* 결제 정보 입력 */}
         {selectedAmount && paymentMethod && (
           <div style={styles.section}>
-            <h3 style={styles.sectionTitle}>📝 결제 정보</h3>
+            <h3 style={styles.sectionTitle}>결제 정보</h3>
             <div style={styles.paymentFormContainer}>
               <PaymentForm
                 method={paymentMethod}
@@ -201,7 +195,7 @@ function PointChargePage() {
         {/* 선택된 상품 요약 */}
         {selectedAmount && (
           <div style={styles.summaryCard}>
-            <h4 style={styles.summaryTitle}>📋 선택된 상품</h4>
+            <h4 style={styles.summaryTitle}>선택된 상품</h4>
             {activeTab === 'point' ? (
               <div style={styles.summaryContent}>
                 <div style={styles.summaryRow}>
@@ -235,8 +229,8 @@ function PointChargePage() {
 const styles = {
   pageContainer: {
     minHeight: '100vh',
-    background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
-    color: 'white'
+    background: '#ffffff',
+    color: '#333333'
   },
   container: {
     maxWidth: '1000px',
@@ -252,14 +246,11 @@ const styles = {
     fontSize: '2.5rem',
     fontWeight: 'bold',
     margin: '0 0 0.5rem 0',
-    background: 'linear-gradient(135deg, #FFD700 0%, #FFA000 100%)',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-    backgroundClip: 'text'
+    color: '#8E24AA'
   },
   subtitle: {
     fontSize: '1.1rem',
-    color: 'rgba(255, 255, 255, 0.7)',
+    color: '#666666',
     marginBottom: '2rem'
   },
   currentPointsCard: {
@@ -267,45 +258,37 @@ const styles = {
     alignItems: 'center',
     gap: '1rem',
     padding: '1.5rem 2rem',
-    background: 'rgba(255, 255, 255, 0.05)',
-    backdropFilter: 'blur(20px)',
-    border: '1px solid rgba(255, 255, 255, 0.1)',
-    borderRadius: '20px',
-    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
-  },
-  pointsIcon: {
-    fontSize: '2.5rem'
+    background: '#f9f5fb',
+    border: '1px solid #e1bee7',
+    borderRadius: '12px',
+    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)'
   },
   pointsInfo: {
-    textAlign: 'left'
+    textAlign: 'center'
   },
   pointsLabel: {
     fontSize: '0.9rem',
-    color: 'rgba(255, 255, 255, 0.7)',
+    color: '#666666',
     marginBottom: '0.3rem'
   },
   pointsAmount: {
     fontSize: '1.8rem',
     fontWeight: 'bold',
-    background: 'linear-gradient(135deg, #FFD700 0%, #FFA000 100%)',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-    backgroundClip: 'text'
+    color: '#8E24AA'
   },
   tabContainer: {
     display: 'flex',
     gap: '1rem',
     marginBottom: '2rem',
-    background: 'rgba(255, 255, 255, 0.05)',
+    background: '#f8f8f8',
     padding: '0.5rem',
-    borderRadius: '20px',
-    backdropFilter: 'blur(10px)'
+    borderRadius: '12px'
   },
   tab: {
     flex: 1,
     padding: '1rem 2rem',
     border: 'none',
-    borderRadius: '15px',
+    borderRadius: '8px',
     fontSize: '1.1rem',
     fontWeight: '600',
     cursor: 'pointer',
@@ -316,17 +299,14 @@ const styles = {
     gap: '0.5rem'
   },
   activeTab: {
-    background: 'linear-gradient(135deg, #FFD700 0%, #FFA000 100%)',
-    color: '#1a1a2e',
-    boxShadow: '0 4px 15px rgba(255, 215, 0, 0.4)'
+    background: '#8E24AA',
+    color: 'white',
+    boxShadow: '0 4px 12px rgba(142, 36, 170, 0.2)'
   },
   inactiveTab: {
-    background: 'rgba(255, 255, 255, 0.05)',
-    color: 'rgba(255, 255, 255, 0.8)',
-    border: '1px solid rgba(255, 255, 255, 0.1)'
-  },
-  tabIcon: {
-    fontSize: '1.2rem'
+    background: '#eeeeee',
+    color: '#666666',
+    border: '1px solid #dddddd'
   },
   section: {
     marginBottom: '2rem'
@@ -334,7 +314,7 @@ const styles = {
   sectionTitle: {
     fontSize: '1.8rem',
     fontWeight: 'bold',
-    color: 'white',
+    color: '#333333',
     marginBottom: '1.5rem',
     textAlign: 'center'
   },
@@ -344,20 +324,20 @@ const styles = {
     gap: '1.5rem'
   },
   optionCard: {
-    background: 'rgba(255, 255, 255, 0.05)',
-    backdropFilter: 'blur(20px)',
-    border: '1px solid rgba(255, 255, 255, 0.1)',
-    borderRadius: '20px',
+    background: 'white',
+    border: '1px solid #e0e0e0',
+    borderRadius: '12px',
     padding: '1.5rem',
     textAlign: 'center',
     cursor: 'pointer',
-    transition: 'all 0.3s ease'
+    transition: 'all 0.3s ease',
+    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)'
   },
   selectedCard: {
-    background: 'rgba(255, 215, 0, 0.1)',
-    border: '2px solid #FFD700',
+    background: '#f9f5fb',
+    border: '2px solid #8E24AA',
     transform: 'translateY(-5px)',
-    boxShadow: '0 10px 30px rgba(255, 215, 0, 0.2)'
+    boxShadow: '0 8px 20px rgba(142, 36, 170, 0.15)'
   },
   cardHeader: {
     marginBottom: '1rem'
@@ -365,15 +345,12 @@ const styles = {
   pointAmount: {
     fontSize: '2rem',
     fontWeight: 'bold',
-    background: 'linear-gradient(135deg, #FFD700 0%, #FFA000 100%)',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-    backgroundClip: 'text',
+    color: '#8E24AA',
     marginBottom: '0.5rem'
   },
   bonusTag: {
     display: 'inline-block',
-    background: 'linear-gradient(135deg, #8E24AA 0%, #7B1FA2 100%)',
+    background: '#8E24AA',
     color: 'white',
     padding: '0.3rem 0.8rem',
     borderRadius: '20px',
@@ -381,18 +358,18 @@ const styles = {
     fontWeight: 'bold'
   },
   priceSection: {
-    borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+    borderTop: '1px solid #f0f0f0',
     paddingTop: '1rem'
   },
   priceAmount: {
     fontSize: '1.5rem',
     fontWeight: 'bold',
-    color: 'white',
+    color: '#333333',
     marginBottom: '0.3rem'
   },
   originalPrice: {
     fontSize: '0.9rem',
-    color: 'rgba(255, 255, 255, 0.6)',
+    color: '#999999',
     textDecoration: 'line-through'
   },
   subscriptionContainer: {
@@ -400,15 +377,15 @@ const styles = {
     justifyContent: 'center'
   },
   subscriptionCard: {
-    background: 'rgba(255, 255, 255, 0.05)',
-    backdropFilter: 'blur(20px)',
-    border: '1px solid rgba(255, 255, 255, 0.1)',
-    borderRadius: '20px',
+    background: 'white',
+    border: '1px solid #e0e0e0',
+    borderRadius: '12px',
     padding: '2rem',
     cursor: 'pointer',
     transition: 'all 0.3s ease',
     maxWidth: '400px',
-    width: '100%'
+    width: '100%',
+    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)'
   },
   subscriptionHeader: {
     textAlign: 'center',
@@ -416,7 +393,7 @@ const styles = {
   },
   subscriptionBadge: {
     display: 'inline-block',
-    background: 'linear-gradient(135deg, #8E24AA 0%, #7B1FA2 100%)',
+    background: '#8E24AA',
     color: 'white',
     padding: '0.3rem 1rem',
     borderRadius: '20px',
@@ -427,20 +404,17 @@ const styles = {
   subscriptionName: {
     fontSize: '2rem',
     fontWeight: 'bold',
-    background: 'linear-gradient(135deg, #8E24AA 0%, #7B1FA2 100%)',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-    backgroundClip: 'text',
+    color: '#8E24AA',
     margin: '0 0 0.5rem 0'
   },
   subscriptionDuration: {
-    color: 'rgba(255, 255, 255, 0.7)',
+    color: '#666666',
     fontSize: '1rem'
   },
   subscriptionPrice: {
     fontSize: '2.5rem',
     fontWeight: 'bold',
-    color: 'white',
+    color: '#333333',
     textAlign: 'center',
     marginBottom: '1.5rem'
   },
@@ -454,12 +428,9 @@ const styles = {
     alignItems: 'center',
     gap: '0.8rem',
     padding: '0.8rem',
-    background: 'rgba(255, 255, 255, 0.05)',
-    borderRadius: '10px',
-    color: 'rgba(255, 255, 255, 0.9)'
-  },
-  benefitIcon: {
-    fontSize: '1.2rem'
+    background: '#f9f5fb',
+    borderRadius: '8px',
+    color: '#333333'
   },
   paymentMethods: {
     display: 'flex',
@@ -469,10 +440,10 @@ const styles = {
   },
   paymentMethod: {
     padding: '1.2rem 2rem',
-    background: 'rgba(255, 255, 255, 0.05)',
-    border: '1px solid rgba(255, 255, 255, 0.1)',
-    borderRadius: '16px',
-    color: 'white',
+    background: 'white',
+    border: '1px solid #e0e0e0',
+    borderRadius: '8px',
+    color: '#333333',
     cursor: 'pointer',
     fontSize: '1.1rem',
     fontWeight: '600',
@@ -480,35 +451,34 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     gap: '0.5rem',
-    backdropFilter: 'blur(10px)'
+    minWidth: '150px',
+    justifyContent: 'center'
   },
   selectedPayment: {
-    background: 'rgba(255, 215, 0, 0.1)',
-    border: '2px solid #FFD700',
-    color: '#FFD700'
-  },
-  paymentIcon: {
-    fontSize: '1.3rem'
+    background: '#f9f5fb',
+    border: '2px solid #8E24AA',
+    color: '#8E24AA'
   },
   paymentFormContainer: {
-    background: 'rgba(255, 255, 255, 0.05)',
-    backdropFilter: 'blur(20px)',
-    border: '1px solid rgba(255, 255, 255, 0.1)',
+    background: 'white',
+    border: '1px solid #e0e0e0',
     padding: '2rem',
-    borderRadius: '20px'
+    borderRadius: '12px',
+    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)'
   },
   summaryCard: {
-    background: 'rgba(255, 255, 255, 0.05)',
-    backdropFilter: 'blur(20px)',
-    border: '1px solid rgba(255, 255, 255, 0.1)',
+    background: 'white',
+    border: '1px solid #e0e0e0',
     padding: '1.5rem',
-    borderRadius: '20px',
-    marginTop: '2rem'
+    borderRadius: '12px',
+    marginTop: '2rem',
+    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)'
   },
   summaryTitle: {
     margin: '0 0 1rem 0',
     fontSize: '1.3rem',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    color: '#333333'
   },
   summaryContent: {
     display: 'flex',
@@ -520,19 +490,16 @@ const styles = {
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: '0.5rem 0',
-    borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
+    borderBottom: '1px solid #f0f0f0'
   },
   summaryValue: {
     fontWeight: 'bold',
-    color: 'white'
+    color: '#333333'
   },
   summaryPrice: {
     fontSize: '1.2rem',
     fontWeight: 'bold',
-    background: 'linear-gradient(135deg, #FFD700 0%, #FFA000 100%)',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-    backgroundClip: 'text'
+    color: '#8E24AA'
   }
 };
 
