@@ -1,18 +1,38 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { authApi } from '../api/authApi';
 
 function LoginPage() {
-  const [userId, setUserId] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-    if (!userId || !password) {
-      alert('아이디와 비밀번호를 입력해주세요.');
+  const handleLogin = async () => {
+    if (!email || !password) {
+      alert('이메일과 비밀번호를 입력해주세요.');
       return;
     }
-    navigate('/main');
+
+    setIsLoading(true);
+    try {
+      const response = await authApi.login(email, password);
+      
+      if (response.success) {
+        // 로그인 성공 시 사용자 정보 저장
+        localStorage.setItem('user', JSON.stringify(response.user));
+        alert('로그인에 성공했습니다!');
+        navigate('/main');
+      } else {
+        alert(response.message || '로그인에 실패했습니다.');
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      alert(error.message || '로그인 중 오류가 발생했습니다.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -25,14 +45,15 @@ function LoginPage() {
 
         <div style={styles.formSection}>
           <div style={styles.inputGroup}>
-            <label style={styles.label}>아이디</label>
+            <label style={styles.label}>이메일</label>
             <div style={styles.inputWrapper}>
               <input
-                type="text"
-                placeholder="아이디를 입력하세요"
-                value={userId}
-                onChange={(e) => setUserId(e.target.value)}
+                type="email"
+                placeholder="이메일을 입력하세요"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 style={styles.input}
+                disabled={isLoading}
               />
             </div>
           </div>
@@ -46,6 +67,8 @@ function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 style={styles.input}
+                disabled={isLoading}
+                onKeyPress={(e) => e.key === 'Enter' && handleLogin()}
               />
               <span
                 style={styles.eyeIcon}
@@ -56,36 +79,19 @@ function LoginPage() {
             </div>
           </div>
 
-          <div style={styles.optionsRow}>
-            <label style={styles.checkboxWrapper}>
-              <input type="checkbox" style={styles.checkbox} />
-              <span style={styles.checkboxText}>로그인 상태 유지</span>
-            </label>
-            <span style={styles.forgotPassword}>비밀번호 찾기</span>
-          </div>
-
-          <button style={styles.loginButton} onClick={handleLogin}>
-            <span style={styles.buttonText}>로그인</span>
+          <button 
+            style={{
+              ...styles.loginButton,
+              opacity: isLoading ? 0.7 : 1,
+              cursor: isLoading ? 'not-allowed' : 'pointer'
+            }} 
+            onClick={handleLogin}
+            disabled={isLoading}
+          >
+            <span style={styles.buttonText}>
+              {isLoading ? '로그인 중...' : '로그인'}
+            </span>
           </button>
-
-          <div style={styles.divider}>
-            <span style={styles.dividerText}>또는</span>
-          </div>
-
-          <div style={styles.socialContainer}>
-            <button style={styles.socialButton}>
-              <img src="/assets/kakao.png" alt="카카오" style={styles.socialIcon} />
-              카카오
-            </button>
-            <button style={styles.socialButton}>
-              <img src="/assets/naver.png" alt="네이버" style={styles.socialIcon} />
-              네이버
-            </button>
-            <button style={styles.socialButton}>
-              <img src="/assets/google.png" alt="구글" style={styles.socialIcon} />
-              구글
-            </button>
-          </div>
 
           <div style={styles.signupSection}>
             <span style={styles.signupText}>계정이 없으신가요?</span>
@@ -177,30 +183,6 @@ const styles = {
     color: '#8E24AA',
     opacity: 0.7
   },
-  optionsRow: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    fontSize: '0.9rem'
-  },
-  checkboxWrapper: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '0.5rem',
-    cursor: 'pointer'
-  },
-  checkbox: {
-    width: '16px',
-    height: '16px'
-  },
-  checkboxText: {
-    color: '#666666'
-  },
-  forgotPassword: {
-    color: '#8E24AA',
-    cursor: 'pointer',
-    textDecoration: 'none'
-  },
   loginButton: {
     width: '100%',
     padding: '1.2rem',
@@ -218,42 +200,6 @@ const styles = {
     display: 'block',
     transform: 'translateY(0)',
     transition: 'transform 0.2s ease'
-  },
-  divider: {
-    position: 'relative',
-    textAlign: 'center',
-    margin: '1rem 0'
-  },
-  dividerText: {
-    background: '#ffffff',
-    padding: '0 1rem',
-    color: '#999999',
-    fontSize: '0.9rem'
-  },
-  socialContainer: {
-    display: 'flex',
-    gap: '0.8rem',
-    flexWrap: 'wrap'
-  },
-  socialButton: {
-    flex: 1,
-    minWidth: '100px',
-    padding: '0.8rem',
-    borderRadius: '8px',
-    border: '1px solid #e0e0e0',
-    background: '#ffffff',
-    color: '#333333',
-    fontSize: '0.9rem',
-    cursor: 'pointer',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: '0.5rem',
-    transition: 'all 0.3s ease'
-  },
-  socialIcon: {
-    width: '20px',
-    height: '20px'
   },
   signupSection: {
     textAlign: 'center',

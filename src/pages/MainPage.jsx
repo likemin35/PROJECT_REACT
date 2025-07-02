@@ -1,33 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
+import { bookApi } from '../api/bookApi';
 
-const allBooks = [
-  { id: 1, title: '보라공주와 일곱 난쟁이', author: '곽보라', price: 9700, views: 13240, image: '/assets/sample1.png' },
-  { id: 2, title: '해리포터', author: '조하민', price: 12000, views: 15420, image: '/assets/sample1.png' },
-  { id: 3, title: '미움받을용기', author: '이원준', price: 9800, views: 8830, image: '/assets/sample1.png' },
-  { id: 4, title: '하하엄마처럼 하하하', author: '장우진', price: 10500, views: 12650, image: '/assets/sample1.png' },
-  { id: 5, title: '정준하장가가기40일대작전', author: '김영진', price: 8800, views: 6420, image: '/assets/sample1.png' },
-  { id: 6, title: '이기적유전자', author: '조은형', price: 11200, views: 21100, image: '/assets/sample1.png' },
-  { id: 7, title: '20대 투자에 미쳐라', author: '정병찬', price: 9900, views: 18750, image: '/assets/sample1.png' },
-  { id: 8, title: '개미', author: '이승환', price: 10800, views: 9340, image: '/assets/sample1.png' },
-  { id: 9, title: '수박은 장마철 이전이 맛있다', author: '윤성열', price: 9900, views: 7890, image: '/assets/sample1.png' },
-  { id: 10, title: '명탐정코난', author: '한기영', price: 11500, views: 24680, image: '/assets/sample1.png' },
-];
-
-const bookData = {
-  로맨스: allBooks,
-  스릴러: allBooks,
-  SF: allBooks,
-  에세이: allBooks,
-  자기계발: allBooks,
-};
+const categories = ['로맨스', '스릴러', 'SF', '에세이', '자기계발'];
 
 function MainPage() {
   const navigate = useNavigate();
-  const categories = Object.keys(bookData);
   const [activeCategory, setActiveCategory] = useState(categories[0]);
   const [showWritingModal, setShowWritingModal] = useState(false);
+  const [books, setBooks] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState(null);
+
+  // 사용자 정보 가져오기
+  useEffect(() => {
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      setUser(JSON.parse(userData));
+    }
+  }, []);
+
+  // 도서 목록 가져오기
+  const fetchBooks = async (category) => {
+    setIsLoading(true);
+    try {
+      const data = await bookApi.getBooks(category);
+      setBooks(data);
+    } catch (error) {
+      console.error('도서 목록 조회 오류:', error);
+      alert('도서 목록을 불러오는데 실패했습니다.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // 초기 로드 및 카테고리 변경 시 도서 목록 업데이트
+  useEffect(() => {
+    fetchBooks(activeCategory);
+  }, [activeCategory]);
+
+  const handleCategoryChange = (category) => {
+    setActiveCategory(category);
+  };
 
   return (
     <div style={styles.pageContainer}>
@@ -39,7 +54,7 @@ function MainPage() {
           {categories.map((cat) => (
             <button
               key={cat}
-              onClick={() => setActiveCategory(cat)}
+              onClick={() => handleCategoryChange(cat)}
               style={{
                 ...styles.tab,
                 ...(activeCategory === cat ? styles.activeTab : styles.inactiveTab)
@@ -50,39 +65,48 @@ function MainPage() {
           ))}
         </div>
 
-        <div style={styles.booksList}>
-          {bookData[activeCategory].map((book, index) => (
-            <div key={`${book.id}-${index}`} style={styles.bookRow} className="book-row">
-              <div style={styles.rankBadge}>{index + 1}</div>
-              <div style={styles.bookImageContainer}>
-                <img src={book.image} alt={book.title} style={styles.bookImage} className="book-image" />
-              </div>
-              <div style={styles.bookInfo}>
-                <h3 style={styles.bookTitle}>{book.title}</h3>
-                <p style={styles.bookAuthor}>{book.author}</p>
-                <div style={styles.bookMeta}>
-                  <span style={styles.bookPrice}>{book.price.toLocaleString()}원</span>
-                  <span style={styles.bookViews}>조회 {book.views.toLocaleString()}회</span>
+        {isLoading ? (
+          <div style={styles.loadingContainer}>
+            <div style={styles.loading}>도서 목록을 불러오는 중...</div>
+          </div>
+        ) : (
+          <div style={styles.booksList}>
+            {books.map((book, index) => (
+              <div key={book.id} style={styles.bookRow} className="book-row">
+                <div style={styles.rankBadge}>{index + 1}</div>
+                <div style={styles.bookImageContainer}>
+                  <img src={book.image} alt={book.title} style={styles.bookImage} className="book-image" />
                 </div>
+                <div style={styles.bookInfo}>
+                  <h3 style={styles.bookTitle}>{book.title}</h3>
+                  <p style={styles.bookAuthor}>{book.author}</p>
+                  <div style={styles.bookMeta}>
+                    <span style={styles.bookPrice}>{book.price.toLocaleString()}P</span>
+                    <span style={styles.bookViews}>조회 {book.views.toLocaleString()}회</span>
+                  </div>
+                </div>
+                <Link to={`/rent/${book.id}`}>
+                  <button style={styles.rentButton} className="rent-button">
+                    대여하기
+                  </button>
+                </Link>
               </div>
-              <Link to={`/rent/${book.id}`}>
-                <button style={styles.rentButton} className="rent-button">
-                  대여하기
-                </button>
-              </Link>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
 
-      <button
-        onClick={() => setShowWritingModal(true)}
-        style={styles.floatingButton}
-        className="floating-button"
-        title="원고 작성"
-      >
-        +
-      </button>
+      {/* 작가인 경우에만 원고 작성 버튼 표시 */}
+      {user && (
+        <button
+          onClick={() => setShowWritingModal(true)}
+          style={styles.floatingButton}
+          className="floating-button"
+          title="원고 작성"
+        >
+          +
+        </button>
+      )}
 
       {showWritingModal && (
         <div style={styles.modalOverlay} onClick={() => setShowWritingModal(false)}>
@@ -135,21 +159,6 @@ const styles = {
     margin: '0 auto',
     fontFamily: 'sans-serif'
   },
-  header: {
-    textAlign: 'center',
-    marginBottom: '2rem'
-  },
-  pageTitle: {
-    fontSize: '2.5rem',
-    fontWeight: 'bold',
-    margin: '0 0 0.5rem 0',
-    color: '#8E24AA'
-  },
-  pageSubtitle: {
-    fontSize: '1.1rem',
-    color: '#000000',
-    margin: 0
-  },
   tabContainer: {
     display: 'flex',
     justifyContent: 'center',
@@ -177,6 +186,17 @@ const styles = {
     boxShadow: '0 4px 15px rgba(142, 36, 170, 0.4)'
   },
   inactiveTab: {},
+  loadingContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '200px'
+  },
+  loading: {
+    fontSize: '1.2rem',
+    color: '#8E24AA',
+    fontWeight: '600'
+  },
   booksList: {
     display: 'flex',
     flexDirection: 'column',
