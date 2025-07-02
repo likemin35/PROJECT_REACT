@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 function PaymentForm({ method, amount }) {
   const navigate = useNavigate();
-  
+
   const [cardCompany, setCardCompany] = useState('');
   const [cardNumber, setCardNumber] = useState('');
   const [expiryMonth, setExpiryMonth] = useState('');
@@ -30,16 +30,15 @@ function PaymentForm({ method, amount }) {
 
     setIsProcessing(true);
 
-    // 결제 처리 시뮬레이션
     setTimeout(() => {
       setIsProcessing(false);
-      
+
       if (amount.type === 'point') {
-        alert(`✨ ${amount.point}P 충전이 완료되었습니다! 🎉\n포인트를 활용해 다양한 도서를 즐겨보세요!`);
+        alert(`${amount.point}P 충전이 완료되었습니다!`);
       } else if (amount.type === 'subscription') {
-        alert(`🌟 ${amount.name} 구독이 완료되었습니다! ✨\n1개월간 무제한으로 이용하세요!`);
+        alert(`${amount.name} 구독이 완료되었습니다!`);
       }
-      
+
       navigate('/main');
     }, 2500);
   };
@@ -48,15 +47,10 @@ function PaymentForm({ method, amount }) {
 
   return (
     <div style={styles.container}>
-      {/* 결제 요약 정보 */}
       <div style={styles.summaryBox}>
         <div style={styles.summaryHeader}>
-          <h4 style={styles.summaryTitle}>
-            <span style={styles.summaryIcon}>📋</span>
-            결제 정보
-          </h4>
+          <h4 style={styles.summaryTitle}>결제 정보</h4>
         </div>
-        
         <div style={styles.summaryContent}>
           {isSubscription ? (
             <>
@@ -68,10 +62,7 @@ function PaymentForm({ method, amount }) {
                 <span style={styles.summaryLabel}>이용기간</span>
                 <span style={styles.summaryValue}>1개월</span>
               </div>
-              <div style={styles.benefitHighlight}>
-                <span style={styles.benefitIcon}>🌟</span>
-                프리미엄 무제한 이용
-              </div>
+              <div style={styles.benefitHighlight}>프리미엄 무제한 이용</div>
             </>
           ) : (
             <>
@@ -79,13 +70,9 @@ function PaymentForm({ method, amount }) {
                 <span style={styles.summaryLabel}>충전 포인트</span>
                 <span style={styles.summaryValue}>{amount.point?.toLocaleString()}P</span>
               </div>
-              <div style={styles.benefitHighlight}>
-                <span style={styles.benefitIcon}>💎</span>
-                즉시 사용 가능
-              </div>
+              <div style={styles.benefitHighlight}>즉시 사용 가능</div>
             </>
           )}
-          
           <div style={styles.summaryTotal}>
             <span style={styles.totalLabel}>총 결제금액</span>
             <span style={styles.totalAmount}>{amount.price?.toLocaleString()}원</span>
@@ -93,13 +80,9 @@ function PaymentForm({ method, amount }) {
         </div>
       </div>
 
-      {/* 결제 폼 */}
       <div style={styles.formContainer}>
         <div style={styles.formHeader}>
           <h4 style={styles.formTitle}>
-            <span style={styles.formIcon}>
-              {method === 'card' ? '💳' : '🏦'}
-            </span>
             {method === 'card' ? '카드 정보 입력' : '계좌 정보 입력'}
           </h4>
         </div>
@@ -108,12 +91,9 @@ function PaymentForm({ method, amount }) {
           {method === 'card' ? (
             <>
               <div style={styles.inputGroup}>
-                <label style={styles.label}>
-                  <span style={styles.labelIcon}>🏢</span>
-                  카드사
-                </label>
-                <select 
-                  value={cardCompany} 
+                <label style={styles.label}>카드사</label>
+                <select
+                  value={cardCompany}
                   onChange={(e) => setCardCompany(e.target.value)}
                   style={styles.select}
                 >
@@ -128,10 +108,7 @@ function PaymentForm({ method, amount }) {
               </div>
 
               <div style={styles.inputGroup}>
-                <label style={styles.label}>
-                  <span style={styles.labelIcon}>💳</span>
-                  카드번호
-                </label>
+                <label style={styles.label}>카드번호</label>
                 <input
                   type="text"
                   placeholder="1234-5678-1234-5678"
@@ -144,13 +121,10 @@ function PaymentForm({ method, amount }) {
 
               <div style={styles.row}>
                 <div style={styles.inputGroup}>
-                  <label style={styles.label}>
-                    <span style={styles.labelIcon}>📅</span>
-                    유효기간
-                  </label>
+                  <label style={styles.label}>유효기간</label>
                   <div style={styles.expiryRow}>
-                    <select 
-                      value={expiryMonth} 
+                    <select
+                      value={expiryMonth}
                       onChange={(e) => setExpiryMonth(e.target.value)}
                       style={{ ...styles.select, flex: 1 }}
                     >
@@ -161,8 +135,8 @@ function PaymentForm({ method, amount }) {
                         </option>
                       ))}
                     </select>
-                    <select 
-                      value={expiryYear} 
+                    <select
+                      value={expiryYear}
                       onChange={(e) => setExpiryYear(e.target.value)}
                       style={{ ...styles.select, flex: 1 }}
                     >
@@ -170,7 +144,9 @@ function PaymentForm({ method, amount }) {
                       {[...Array(10)].map((_, i) => {
                         const year = new Date().getFullYear() + i;
                         return (
-                          <option key={year} value={year}>{year}년</option>
+                          <option key={year} value={year}>
+                            {year}년
+                          </option>
                         );
                       })}
                     </select>
@@ -178,10 +154,7 @@ function PaymentForm({ method, amount }) {
                 </div>
 
                 <div style={styles.inputGroup}>
-                  <label style={styles.label}>
-                    <span style={styles.labelIcon}>🔒</span>
-                    CVC
-                  </label>
+                  <label style={styles.label}>CVC</label>
                   <input
                     type="text"
                     placeholder="123"
@@ -196,12 +169,9 @@ function PaymentForm({ method, amount }) {
           ) : (
             <>
               <div style={styles.inputGroup}>
-                <label style={styles.label}>
-                  <span style={styles.labelIcon}>🏦</span>
-                  은행명
-                </label>
-                <select 
-                  value={bankName} 
+                <label style={styles.label}>은행명</label>
+                <select
+                  value={bankName}
                   onChange={(e) => setBankName(e.target.value)}
                   style={styles.select}
                 >
@@ -219,13 +189,10 @@ function PaymentForm({ method, amount }) {
               </div>
 
               <div style={styles.inputGroup}>
-                <label style={styles.label}>
-                  <span style={styles.labelIcon}>🔢</span>
-                  계좌번호
-                </label>
+                <label style={styles.label}>계좌번호</label>
                 <input
                   type="text"
-                  placeholder="계좌번호를 입력하세요 (예: 123-456-789012)"
+                  placeholder="계좌번호를 입력하세요"
                   value={accountNumber}
                   onChange={(e) => setAccountNumber(e.target.value)}
                   style={styles.input}
@@ -235,10 +202,7 @@ function PaymentForm({ method, amount }) {
           )}
 
           <div style={styles.securityNotice}>
-            <span style={styles.securityIcon}>🔐</span>
-            <span style={styles.securityText}>
-              모든 결제 정보는 SSL로 암호화되어 안전하게 처리됩니다
-            </span>
+            모든 결제 정보는 암호화되어 안전하게 처리됩니다
           </div>
 
           <button
@@ -249,22 +213,7 @@ function PaymentForm({ method, amount }) {
               ...(isProcessing ? styles.processingButton : {})
             }}
           >
-            {isProcessing ? (
-              <>
-                <span style={styles.loadingSpinner}>⏳</span>
-                <span style={styles.loadingText}>결제 처리 중...</span>
-                <div style={styles.processingBar}>
-                  <div style={styles.processingFill}></div>
-                </div>
-              </>
-            ) : (
-              <>
-                <span style={styles.buttonIcon}>💳</span>
-                <span style={styles.buttonText}>
-                  {amount.price?.toLocaleString()}원 결제하기
-                </span>
-              </>
-            )}
+            {isProcessing ? '결제 처리 중...' : `${amount.price?.toLocaleString()}원 결제하기`}
           </button>
         </div>
       </div>
@@ -276,34 +225,25 @@ const styles = {
   container: {
     maxWidth: '600px',
     margin: '0 auto',
+    padding: '2rem',
     display: 'flex',
     flexDirection: 'column',
     gap: '2rem'
   },
   summaryBox: {
-    background: 'rgba(255, 255, 255, 0.05)',
-    backdropFilter: 'blur(20px)',
-    border: '1px solid rgba(255, 255, 255, 0.1)',
-    borderRadius: '20px',
-    overflow: 'hidden',
-    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
+    background: '#f8f8f8',
+    borderRadius: '12px',
+    boxShadow: '0 4px 10px rgba(0,0,0,0.05)'
   },
   summaryHeader: {
-    background: 'rgba(255, 255, 255, 0.05)',
-    padding: '1.5rem',
-    borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
+    padding: '1rem 1.5rem',
+    borderBottom: '1px solid #ddd'
   },
   summaryTitle: {
     margin: 0,
     fontSize: '1.3rem',
     fontWeight: 'bold',
-    color: 'white',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '0.8rem'
-  },
-  summaryIcon: {
-    fontSize: '1.5rem'
+    color: '#000'
   },
   summaryContent: {
     padding: '1.5rem'
@@ -311,230 +251,109 @@ const styles = {
   summaryItem: {
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: '1rem',
-    fontSize: '1.1rem'
+    marginBottom: '1rem'
   },
   summaryLabel: {
-    color: 'rgba(255, 255, 255, 0.8)'
+    color: '#333'
   },
   summaryValue: {
     fontWeight: 'bold',
-    color: 'white'
+    color: '#000'
   },
   benefitHighlight: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '0.8rem',
+    backgroundColor: '#fffbe6',
+    color: '#b58d00',
     padding: '1rem',
-    background: 'rgba(255, 215, 0, 0.1)',
-    border: '1px solid rgba(255, 215, 0, 0.3)',
-    borderRadius: '12px',
-    marginBottom: '1.5rem',
-    color: '#FFD700',
-    fontSize: '1rem',
-    fontWeight: '600'
-  },
-  benefitIcon: {
-    fontSize: '1.3rem'
+    borderRadius: '8px',
+    fontWeight: '600',
+    marginBottom: '1rem'
   },
   summaryTotal: {
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: '1.5rem',
-    paddingTop: '1.5rem',
-    borderTop: '2px solid rgba(255, 215, 0, 0.3)',
-    fontSize: '1.3rem',
+    marginTop: '1rem',
+    borderTop: '1px solid #ddd',
+    paddingTop: '1rem',
     fontWeight: 'bold'
   },
   totalLabel: {
-    color: 'white'
+    color: '#000'
   },
   totalAmount: {
-    background: 'linear-gradient(135deg, #FFD700 0%, #FFA000 100%)',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-    backgroundClip: 'text',
-    fontSize: '1.5rem'
+    color: '#8E24AA',
+    fontSize: '1.3rem'
   },
   formContainer: {
-    background: 'rgba(255, 255, 255, 0.05)',
-    backdropFilter: 'blur(20px)',
-    border: '1px solid rgba(255, 255, 255, 0.1)',
-    borderRadius: '20px',
-    overflow: 'hidden',
-    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
+    background: '#f8f8f8',
+    borderRadius: '12px',
+    boxShadow: '0 4px 10px rgba(0,0,0,0.05)'
   },
   formHeader: {
-    background: 'rgba(255, 255, 255, 0.05)',
-    padding: '1.5rem',
-    borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
+    padding: '1rem 1.5rem',
+    borderBottom: '1px solid #ddd'
   },
   formTitle: {
     margin: 0,
     fontSize: '1.3rem',
     fontWeight: 'bold',
-    color: 'white',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '0.8rem'
-  },
-  formIcon: {
-    fontSize: '1.5rem'
+    color: '#000'
   },
   formContent: {
-    padding: '2rem',
+    padding: '1.5rem',
     display: 'flex',
     flexDirection: 'column',
-    gap: '1.5rem'
+    gap: '1rem'
   },
   inputGroup: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '0.8rem',
-    flex: 1
+    gap: '0.5rem'
   },
   label: {
     fontWeight: 'bold',
-    color: 'rgba(255, 255, 255, 0.9)',
-    fontSize: '1rem',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '0.5rem'
-  },
-  labelIcon: {
-    fontSize: '1.2rem'
+    color: '#000'
   },
   input: {
-    padding: '1.2rem 1.5rem',
-    borderRadius: '12px',
-    border: '1px solid rgba(255, 255, 255, 0.2)',
-    background: 'rgba(255, 255, 255, 0.05)',
-    color: 'white',
-    fontSize: '1rem',
-    transition: 'all 0.3s ease',
-    outline: 'none'
+    padding: '0.8rem',
+    border: '1px solid #ccc',
+    borderRadius: '6px',
+    fontSize: '1rem'
   },
   select: {
-    padding: '1.2rem 1.5rem',
-    borderRadius: '12px',
-    border: '1px solid rgba(255, 255, 255, 0.2)',
-    background: 'rgba(255, 255, 255, 0.05)',
-    color: 'white',
-    fontSize: '1rem',
-    outline: 'none',
-    cursor: 'pointer'
+    padding: '0.8rem',
+    border: '1px solid #ccc',
+    borderRadius: '6px',
+    fontSize: '1rem'
   },
   row: {
     display: 'flex',
-    gap: '1rem',
-    alignItems: 'end'
+    gap: '1rem'
   },
   expiryRow: {
     display: 'flex',
     gap: '0.5rem'
   },
   securityNotice: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '0.8rem',
-    padding: '1rem',
-    background: 'rgba(76, 175, 80, 0.1)',
-    border: '1px solid rgba(76, 175, 80, 0.3)',
-    borderRadius: '12px',
-    fontSize: '0.95rem',
-    color: '#81C784'
-  },
-  securityIcon: {
-    fontSize: '1.2rem'
-  },
-  securityText: {
-    flex: 1
+    fontSize: '0.9rem',
+    color: '#2e7d32',
+    backgroundColor: '#e8f5e9',
+    padding: '0.8rem',
+    borderRadius: '8px'
   },
   submitButton: {
-    background: 'linear-gradient(135deg, #8E24AA 0%, #7B1FA2 100%)',
-    color: 'white',
-    padding: '1.5rem 2rem',
-    borderRadius: '16px',
+    backgroundColor: '#8E24AA',
+    color: '#fff',
+    padding: '1rem',
+    fontSize: '1.1rem',
     border: 'none',
-    fontSize: '1.3rem',
-    fontWeight: 'bold',
+    borderRadius: '8px',
     cursor: 'pointer',
-    transition: 'all 0.3s ease',
-    marginTop: '1rem',
-    boxShadow: '0 6px 20px rgba(142, 36, 170, 0.4)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: '1rem',
-    minHeight: '60px'
+    fontWeight: 'bold'
   },
   processingButton: {
-    background: 'rgba(255, 255, 255, 0.1)',
-    cursor: 'not-allowed',
-    boxShadow: 'none',
-    flexDirection: 'column',
-    gap: '0.8rem'
-  },
-  buttonIcon: {
-    fontSize: '1.5rem'
-  },
-  buttonText: {
-    fontSize: '1.3rem'
-  },
-  loadingSpinner: {
-    fontSize: '1.8rem',
-    animation: 'spin 1s linear infinite'
-  },
-  loadingText: {
-    fontSize: '1.1rem',
-    color: 'rgba(255, 255, 255, 0.8)'
-  },
-  processingBar: {
-    width: '200px',
-    height: '4px',
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    borderRadius: '2px',
-    overflow: 'hidden'
-  },
-  processingFill: {
-    width: '100%',
-    height: '100%',
-    background: 'linear-gradient(135deg, #FFD700 0%, #FFA000 100%)',
-    animation: 'processing 2s ease-in-out infinite'
+    backgroundColor: '#ccc',
+    cursor: 'not-allowed'
   }
 };
-
-// CSS 애니메이션 및 호버 효과 추가
-const styleSheet = document.createElement('style');
-styleSheet.textContent = `
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-  
-  @keyframes processing {
-    0% { transform: translateX(-100%); }
-    50% { transform: translateX(0%); }
-    100% { transform: translateX(100%); }
-  }
-  
-  .payment-input:focus {
-    border-color: rgba(142, 36, 170, 0.5);
-    box-shadow: 0 0 0 3px rgba(142, 36, 170, 0.1);
-  }
-  
-  .payment-select:focus {
-    border-color: rgba(142, 36, 170, 0.5);
-    box-shadow: 0 0 0 3px rgba(142, 36, 170, 0.1);
-  }
-  
-  .submit-button:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(142, 36, 170, 0.5);
-  }
-`;
-document.head.appendChild(styleSheet);
 
 export default PaymentForm;
